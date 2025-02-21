@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoPrime - Buy & Sell Cars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e1e2f, #252541, #2c2c58);
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        .car-card {
+            transition: transform 0.3s ease-in-out;
+        }
+        .car-card:hover {
+            transform: scale(1.05);
+        }
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #video-container video {
+            width: 100%;
+            height: 200%;
+            object-fit: cover; /* Ensures the video fills the entire space without distortion */
+        }
+
+        /* Content styling */
+        .content {
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4); /* Optional dark overlay for better text visibility */
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-900" id="video-container">
+  
+    <!-- NAVIGATION -->
+    <nav class="flex justify-between items-center p-5 bg-black bg-opacity-80 fixed w-full z-50">
+        <h1 class="text-2xl font-bold text-white">AutoPrime</h1>
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="#cars" class="text-white hover:text-yellow-400">Cars</a></li>
+            <li><a href="#about" class="text-white hover:text-yellow-400">About</a></li>
+            <li><a href="#contact" class="text-white hover:text-yellow-400">Contact</a></li>
+        </ul>
+        <button class="md:hidden text-white text-2xl"><i class="fas fa-bars"></i></button>
+    </nav>
+    <video autoplay loop muted playsinline>
+        <source src="./171391-845439656.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <!-- HERO SECTION -->
+    <header class="h-screen flex flex-col items-center justify-center text-center px-5">
+        <h2 class="text-5xl font-extrabold">Find Your Dream Car</h2>
+        <p class="text-lg mt-4 text-gray-300">The best collection of luxury, sports, and electric cars.</p>
+        <a href="#cars" class="mt-6 px-6 py-3 bg-yellow-500 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-400 transition">Browse Cars</a>
+    </header>
+
+    <!-- CAR LISTING SECTION -->
+    <section id="cars" class="py-20 px-5">
+        <h2 class="text-4xl font-bold text-center mb-10">Featured Cars</h2>
+        
+        <!-- FILTERS -->
+        <div class="flex justify-center mb-6">
+            <input id="search" type="text" placeholder="Search for a car..." class="px-4 py-2 w-1/3 rounded-lg text-black">
+        </div>
+
+        <div id="car-list" class="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+            <!-- Car Items (Generated via JS) -->
+        </div>
+    </section>
+
+    <!-- ABOUT US -->
+    <section id="about" class="py-20 text-center px-5">
+        <h2 class="text-4xl font-bold mb-6">About Us</h2>
+        <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+            AutoPrime is the leading car marketplace offering high-quality vehicles from trusted dealers and individuals. We ensure top-notch customer satisfaction.
+        </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-20 text-center px-5">
+        <h2 class="text-4xl font-bold mb-6">Get in Touch</h2>
+        <p class="text-lg text-gray-300 mb-4">Have questions? Reach out to us anytime.</p>
+        <a href="mailto:contact@autoprime.com" class="px-6 py-3 bg-yellow-500 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-400 transition">Email Us</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 bg-black bg-opacity-80">
+        <p class="text-gray-400">&copy; 2025 AutoPrime. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const cars = [
+            { name: "Lamborghini Huracan", image: "https://source.unsplash.com/400x300/?lamborghini" },
+            { name: "Tesla Model S", image: "https://source.unsplash.com/400x300/?tesla" },
+            { name: "BMW M5", image: "https://source.unsplash.com/400x300/?bmw" },
+            { name: "Porsche 911", image: "https://source.unsplash.com/400x300/?porsche" },
+            { name: "Mercedes AMG", image: "https://source.unsplash.com/400x300/?mercedes" },
+            { name: "Audi R8", image: "https://source.unsplash.com/400x300/?audi" }
+        ];
+
+        function displayCars() {
+            const carList = document.getElementById("car-list");
+            carList.innerHTML = "";
+            cars.forEach(car => {
+                carList.innerHTML += `
+                    <div class="car-card bg-gray-800 p-5 rounded-lg shadow-lg">
+                        <img src="${car.image}" alt="${car.name}" class="w-full h-48 object-cover rounded-md">
+                        <h3 class="text-xl font-bold mt-4">${car.name}</h3>
+                    </div>
+                `;
+            });
+        }
+
+        document.getElementById("search").addEventListener("input", function() {
+            const query = this.value.toLowerCase();
+            const filteredCars = cars.filter(car => car.name.toLowerCase().includes(query));
+            const carList = document.getElementById("car-list");
+            carList.innerHTML = "";
+            filteredCars.forEach(car => {
+                carList.innerHTML += `
+                    <div class="car-card bg-gray-800 p-5 rounded-lg shadow-lg">
+                        <img src="${car.image}" alt="${car.name}" class="w-full h-48 object-cover rounded-md">
+                        <h3 class="text-xl font-bold mt-4">${car.name}</h3>
+                    </div>
+                `;
+            });
+        });
+
+        displayCars();
+    </script>
+</body>
+</html>
